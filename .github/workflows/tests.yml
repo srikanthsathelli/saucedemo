@@ -11,4 +11,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
-        uses: actions/checkout@v4
+        uses: action/checkout@v4
+
+      - name: setup node
+        uses: action/setup-node@v4
+        with:
+            node-version: 20
+      - name: install dependencies
+        run: npm ci
+
+      - name : install playwright browsers 
+        run : npx playwright install --with-deps
+
+      - name: run playwright tests
+        run: npx playwright run
+        env:
+          USER_NAME: ${{ secrets.USER_NAME }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
