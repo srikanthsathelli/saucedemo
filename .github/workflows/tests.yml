@@ -17,6 +17,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
             node-version: 20
+
+      - name: cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+
       - name: install dependencies
         run: npm ci
 
@@ -24,7 +31,7 @@ jobs:
         run : npx playwright install --with-deps
 
       - name: run playwright tests
-        run: npx playwright run
+        run: npx playwright test
         env:
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
