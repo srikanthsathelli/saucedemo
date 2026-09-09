@@ -7,7 +7,7 @@ export const appTestData = {
     },
 
     orderConfirmMessages : {
-        thankyouNote: 'heheheh',
+        thankyouNote: 'Thank you for your order!',
         dispatchNote: 'Your order has been dispatched, and will arrive just as fast as the pony can get there!'
     }
 }
