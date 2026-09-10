@@ -1,5 +1,9 @@
 name: 'Tests'
 
+permissions:
+  contents: read
+  checks: write
+
 on:
   push:
     branches: [master]
@@ -36,20 +40,18 @@ jobs:
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
 
-      - name: list files for debugging
+      - name: publish test results
         if: always()
-        run: |
-          echo "Current folder:"
-          pwd
-          echo "Top-level files:"
-          ls -la
-          echo "Searching for any html report folder:"
-          find . -iname "playwright-report" -o -iname "index.html"
-      
+        uses: dorny/test-reporter@v1
+        with:
+          name: Playwright Tests
+          path: test-results/results.xml
+          reporter: java-junit
+
       - name: upload html report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report (JUST A NAME)
-          path: playwright-report/ (Path to grab from)
+          name: playwright-report
+          path: playwright-report/
           retention-days: 7
