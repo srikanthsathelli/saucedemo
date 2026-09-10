@@ -1,5 +1,9 @@
 name: 'Tests'
 
+permissions:
+  contents: read
+  checks: write
+
 on:
   push:
     branches: [master]
@@ -35,6 +39,14 @@ jobs:
         env:
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+
+      - name: publish test results
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Playwright Tests
+          path: test-results/results.xml
+          reporter: java-junit
 
       - name: upload html report
         if: always()
