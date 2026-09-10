@@ -35,6 +35,16 @@ jobs:
         env:
           USER_NAME: ${{ secrets.USER_NAME }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+
+      - name: list files for debugging
+        if: always()
+        run: |
+          echo "Current folder:"
+          pwd
+          echo "Top-level files:"
+          ls -la
+          echo "Searching for any html report folder:"
+          find . -iname "playwright-report" -o -iname "index.html"
       
       - name: upload html report
         if: always()
