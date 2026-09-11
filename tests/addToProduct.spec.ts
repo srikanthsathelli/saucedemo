@@ -20,7 +20,9 @@ test.describe('Add products to cart', () => {
 
     await test.step('Verify cart item matches the product added', async () => {
       await inventoryPage.navigateToCartPage();
-      const cartItemDetails = await cartPage.getCartItemDetails();
+       console.log('CURRENT URL AFTER NAVIGATION:', page.url()); 
+      const cartItemDetails = await cartPage.getCartItemDetails();  // ← add this one line
+
       const cartItemName = cartItemDetails.name?.trim();
       cartItemPrice = cartItemDetails.price?.trim();
       expect(cartItemName).toBe(addedProductDetails.name);
