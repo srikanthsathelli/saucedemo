@@ -44,7 +44,14 @@ export class InventoryPage extends BasePage {
     return parseInt(badgeText || '0', 10);
   }
 
-  async navigateToCartPage() {
-    await this.cartBadge.click()
+  get cartLink() {
+  return this.page.locator('.shopping_cart_link');
   }
+  
+  async navigateToCartPage() {
+  await Promise.all([
+    this.page.waitForURL('**/cart.html'),
+    this.cartLink.click(),
+  ]);
+}
 }
