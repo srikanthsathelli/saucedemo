@@ -1,11 +1,22 @@
 pipeline {
-    agent any
-
+    agent {
+        dockerfile true
+    }
     stages {
-        stage('Hello') {
+        stage('Test') {
             steps {
-                echo 'Hello from Jenkins'
+                sh '''
+                    cd /app
+                    npx playwright test
+                    cp -r playwright-report "$WORKSPACE"/
+                    '''
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive:true
         }
     }
 }
