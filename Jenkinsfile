@@ -8,11 +8,17 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh '''
-                    cd /app
-                    npx playwright test
-                    cp -r playwright-report "$WORKSPACE"/
-                    '''
+                withCredentials([usernamePassword(
+                    credentialsId: 'USER_NAME_PASSWORD',
+                    usernameVariable: 'USER_NAME',
+                    passwordVariable: 'USER_PASSWORD'
+                )]) {
+                    sh '''
+                        cd /app
+                        npx playwright test
+                        cp -r playwright-report "$WORKSPACE"/
+                        '''
+                }
             }
         }
     }
